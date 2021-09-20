@@ -1,0 +1,47 @@
+<?php
+session_start();
+require 'db/db_connection.php';
+// CHECK USER IF LOGGED IN
+if(isset($_SESSION['user_email']) && !empty($_SESSION['user_email'])){
+
+$user_email = $_SESSION['user_email'];
+$get_user_data = mysqli_query($db_connection, "SELECT * FROM `users` WHERE user_email = '$user_email'");
+$userData =  mysqli_fetch_assoc($get_user_data);
+
+}else{
+header('Location: logout.php');
+exit;
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="css/main.css">
+
+    <style>
+    a,
+    a:visited {
+        color: #0000EE;
+    }
+
+    a:hover {
+        color: #EE0000;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hello, <?php echo $userData['username'];?></h1>
+        <a href="logout.php">Logout</a>
+
+</body>
+
+</html>
